@@ -1,4 +1,4 @@
-**Colab** is a free notebook environment that runs entirely in the cloud. You and team members can edit documents, the way you work with Google docs. It supports many popular Machine Learning(**ML**) libraries such as Keras,Tensorflow,Pytorch etc.
+**[Colab](www.colab.research.google.com)** is a free notebook environment that runs entirely in the cloud. You and team members can edit documents the way you work with [Google docs](https://docs.google.com). It supports many popular Machine Learning(**ML**) libraries such as Keras,Tensorflow,Pytorch etc.
 
 More importantly, one can leverage **free Graphics Processing Units**(GPUs) for machine, scientific computing and 3D visualizations. Scientists, Artists and Engineers need access to massively parallel computational power. Deep learning, physical simulation or molecular modelling are accelerated with several **GPU** types such as NVIDIA Tesla K80, P100, P4, T4 and V100 available depending on compute or visualization needs.
 
