@@ -12,7 +12,7 @@ You will need a Gmail account as Colab implicitly uses Google Drive for storing 
 Step 1 – Open this URL in your browser.[colab url] It will display the following Screen.
 
 `************image************`
-![Test Image](images/test.png "Test Title")
+![Test Image](/images/test.png "Test Title")
 
 Step 2 – Click on the New Python 3 notebook link at the bottom of the screen. A new notebook appears.
 
