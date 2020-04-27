@@ -38,7 +38,7 @@ It will connect to a specified runtime and show the screen below.
 
 Step 5- You can now type your code in the cell shown .Type
 
-`print(“You are welcome to your first notebook”)`
+`print(“Welcome to your first notebook”)`
 
 ![Test Image](./images/8.png "Test Title")
 
