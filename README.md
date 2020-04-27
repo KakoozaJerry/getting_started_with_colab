@@ -115,6 +115,6 @@ You can run your code in the cells as shown above to kick start your project.
 
 `tf.test.gpu_device_name()`
 
-If the GPU is enabled, it will give the following output -  
+If the GPU is enabled, it will give the following output below
 
-`‘/device:GPU:0’`
+`/device:GPU:0`
