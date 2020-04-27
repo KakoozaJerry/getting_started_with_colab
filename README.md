@@ -9,11 +9,11 @@ You will need a Gmail account as Colab implicitly uses Google Drive for storing 
 
 Step 1 – Open this URL in your browser.[Colab](https://colab.research.google.com) It will display the following Screen.
 
-![Test Image](./images/1.png "Test Title")
+![Test Image](./images/1.PNG "Test Title")
 
 Step 2 – Click on the New Notebook link at the bottom of the screen. A new notebook appears.
 
-![Test Image](./images/2.png "Test Title")
+![Test Image](./images/2.PNG "Test Title")
 ![Test Image](./images/3.png "Test Title")
 
 If you are familiar with Jupyter notebooks, the interface looks more or less the same. You have an input cell and an output cell. Above we have the input Cell.
