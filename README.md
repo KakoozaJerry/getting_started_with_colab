@@ -2,8 +2,13 @@
 
 More importantly, one can leverage **free Graphics Processing Units**(GPUs) for machine, scientific computing and 3D visualizations. Scientists, Artists and Engineers need access to massively parallel computational power. Deep learning, physical simulation or molecular modelling are accelerated with several **GPU** types such as NVIDIA Tesla K80, P100, P4, T4 and V100 available depending on compute or visualization needs.
 
-My First Notebook
-------------------
+# Table of Contents
+
+- [Basic Python Operations in Notebooks](#my-first-notebook)
+- [Machine Learnig Intro]()
+
+## My First Notebook
+
 
 You will need a Gmail account as Colab implicitly uses Google Drive for storing your notebooks, ensure that you are logged in to your Google Drive account before proceeding further.
 
@@ -111,9 +116,10 @@ You can run your code in the cells as shown above to kick start your project.
 
 **NB:** Incase you are doing a  computational intensive program, it is advisable to always first change your runtime to GPU before you start typing your code. Also you can always double ckeck to see if you are connected to a GPU by running the command.
 
-`import tensorflow as tf`
-
-`tf.test.gpu_device_name()`
+```python
+import tensorflow as tf
+tf.test.gpu_device_name()
+```
 
 If the GPU is enabled, it will give the following output below
 
