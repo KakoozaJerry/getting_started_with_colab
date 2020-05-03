@@ -5,8 +5,15 @@ More importantly, one can leverage **free Graphics Processing Units**(GPUs) for 
 # Table of Contents
 
 - [Basic Python Operations in Notebooks](#my-first-notebook)
-- [Machine Learnig Intro]()
-
+    - [Print My First Notebook]()
+    - [Variables & Arithmetic]()
+    - [Functions]()
+- [Machine Learning Intro]()
+    - [Model Fitting]()
+    - [Prediction]()
+    - [Cross-Validation]()
+- [How to run a job with GPU]()
+---
 ## My First Notebook
 
 
@@ -125,3 +132,19 @@ If the GPU is enabled, it will give the following output below
 
 
 `/device:GPU:0`
+
+## Github
+
+Incase you want to checkout this page's repository on Github, you can check the link below.
+[]()
+
+---
+If you have any questions about this guide , do not hesitate to contact me on whichever platform you prefer below :)  &#x261F;
+
+Email : [abrahamkakooza@gmail.com](mailto:abrahamkakooza@gmail.com)
+
+Twitter : [@KakoozaJerry](https://twitter.com/KakoozaJerry)
+
+Facebook : [@KakoozaJerry](https://www.facebook.com/kakooza.jerry)
+
+
