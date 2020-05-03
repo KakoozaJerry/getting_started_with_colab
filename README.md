@@ -133,18 +133,22 @@ If the GPU is enabled, it will give the following output below
 
 `/device:GPU:0`
 
-## Github
+## Github Repo
 
-Incase you want to checkout this page's repository on Github, you can check the link below.
-[]()
+Incase you want to checkout this page's repository on Github, click the link below.
+[https://github.com/KakoozaJerry/getting_started_with_colab](https://github.com/KakoozaJerry/getting_started_with_colab)
 
 ---
-If you have any questions about this guide , do not hesitate to contact me on whichever platform you prefer below :)  &#x261F;
+## Contact Me
 
-Email : [abrahamkakooza@gmail.com](mailto:abrahamkakooza@gmail.com)
+If you have any questions about this guide , do not hesitate to contact me on whichever platform you prefer below :) 👇
 
-Twitter : [@KakoozaJerry](https://twitter.com/KakoozaJerry)
+Email📧 : [abrahamkakooza@gmail.com](mailto:abrahamkakooza@gmail.com)
 
-Facebook : [@KakoozaJerry](https://www.facebook.com/kakooza.jerry)
+Twitter🐤 : [@KakoozaJerry](https://twitter.com/KakoozaJerry)
+
+Facebook😉 : [@KakoozaJerry](https://www.facebook.com/kakooza.jerry)
+
+
 
 
