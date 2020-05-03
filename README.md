@@ -131,12 +131,18 @@ tf.test.gpu_device_name()
 If the GPU is enabled, it will give the following output below
 
 
-`/device:GPU:0`
+```python
+/device:GPU:0
+```
+## Author Detail
+Am a senior student at [Makerere University](https://www.mak.ac.ug/) pursuing a Bachelor of Science degree in Telecommunications Engineering at the [College of Engineering ,Design, Art and Technology](https://cedat.mak.ac.ug/).
+
 
 ## Github Repo
 
-Incase you want to checkout this page's repository on Github, click the link below.
-[https://github.com/KakoozaJerry/getting_started_with_colab](https://github.com/KakoozaJerry/getting_started_with_colab)
+You can checkout this page's repository on Github by  clicking the link below.
+
+👉 [https://github.com/KakoozaJerry/getting_started_with_colab](https://github.com/KakoozaJerry/getting_started_with_colab)
 
 ---
 ## Contact Me
