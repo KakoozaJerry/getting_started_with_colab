@@ -164,13 +164,45 @@ You run the above cell and calculate the minutes in the above seconds using the 
 minutes = seconds // 60
 print("There are " + str(minutes) + " minutes are in " + str(seconds) + " seconds")
 ```
-The output should be 
+The output cell should show 
 
 ```python
 There are 60 minutes are in 3600 seconds
 ```
 
-### 
+### Functions
+* We will run the code below for a recursion function by typing it into the input cell and pressing the Shift+Enter keys
+
+```python
+def tri_recursion(k):
+  if(k > 0):
+    result = k + tri_recursion(k - 1)
+    print(result)
+  else:
+    result = 0
+  return result
+
+print("\n\nRecursion Example Results")
+tri_recursion(6)
+```
+The output cell should be as below
+
+```python
+
+Recursion Example Results
+1
+3
+6
+10
+15
+21
+21
+```
+
+# Machine Learning Intro
+* By now you have all the notebook basics at your finger tips. Lets dive into some machine learning using scikit-learn. I assume you have a basic working knowledge of ML practices.
+
+Scikit-learn is an open source machine learning library that supports supervised and unsupervised learning. It also provides various tools for model fitting, data preprocessing, model selection and evaluation, and many other utilities.
 
 ---
 ## Author Details
@@ -178,6 +210,7 @@ Am a senior student of [Makerere University](https://www.mak.ac.ug/) pursuing a 
 
 ## Links to above ipython notebook tutorials
 
+[MyFirstNotebook](https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-) : [https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-](https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-)
 
 ## Github Repo
 
