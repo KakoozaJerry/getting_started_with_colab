@@ -1,11 +1,22 @@
 **[Colab](https://colab.research.google.com)** is a free notebook environment that runs entirely in the cloud. You and team members can edit documents the way you work with [Google docs](https://docs.google.com). It supports many popular Machine Learning(**ML**) libraries such as Keras,Tensorflow,Pytorch etc.
 
-More importantly, one can leverage **free Graphics Processing Units**(GPUs) for machine, scientific computing and 3D visualizations. Scientists, Artists and Engineers need access to massively parallel computational power. Deep learning, physical simulation or molecular modelling are accelerated with several **GPU** types such as NVIDIA Tesla K80, P100, P4, T4 and V100 available depending on compute or visualization needs.
+## Why Colab?
+ It allows one to write and execute Python in a browser with:
+ * Zero configuration required
+ * Free access to GPUs
+ * Easy sharing
+
+One can leverage **free Graphics Processing Units**(GPUs) for machine, scientific computing and 3D visualizations. Scientists, Artists and Engineers need access to massively parallel computational power. Deep learning, physical simulation or molecular modelling are accelerated with several **GPU** types such as NVIDIA Tesla K80, P100, P4, T4 and V100 available depending on compute or visualization needs.
 
 # Table of Contents
 
-- [Basic Python Operations in Notebooks](#my-first-notebook)
-    - [Print My First Notebook]()
+- [Basic Python Operations in Notebooks](#basic-python-operations-in-notebooks)
+    - [Print My First Notebook](#my-first-notebook)
+        - [Uploading data to your Colab environment from your local machine](#Uploading-data-to-your-Colab-environment-from-your-local-machine)
+        - [Downloading Datasets into Google Drive via Google Colab](#Downloading-Datasets-into-Google-Drive-via-Google-Colab)
+        - [Saving your notebook to Google drive](#Saving-your-notebook-to-Google-drive)
+        - [Saving your notebook to Github](#Saving-your-notebook-to-Github)
+        - [Enabling GPU](#Enabling-GPU)
     - [Variables & Arithmetic]()
     - [Functions]()
 - [Machine Learning Intro]()
@@ -13,13 +24,15 @@ More importantly, one can leverage **free Graphics Processing Units**(GPUs) for 
     - [Prediction]()
     - [Cross-Validation]()
 - [How to run a job with GPU]()
+
 ---
-## My First Notebook
+## Basic Python Operations in Notebooks
+### My First Notebook
 
 
 You will need a Gmail account as Colab implicitly uses Google Drive for storing your notebooks, ensure that you are logged in to your Google Drive account before proceeding further.
 
-Step 1 – Open this URL in your browser.[Colab](https://colab.research.google.com) It will display the following Screen.
+Step 1 – Open this URL in your browser.[https://colab.research.google.com](https://colab.research.google.com) It will display the following Screen.
 
 ![Test Image](./images/1.PNG "Test Title")
 
@@ -50,7 +63,9 @@ It will connect to a specified runtime and show the screen below.
 
 Step 5- You can now type your code in the cell shown .Type
 
-`print(“Welcome to your first notebook”)`
+```python
+print(“Welcome to your first notebook”)
+```
 
 ![Test Image](./images/7.png "Test Title")
 
@@ -60,7 +75,7 @@ Step 6- To run the cell, you can either use Shift+Enter keys or click Runtime>Ru
 
 Step 7- Click on +Code tab above to create a code cell. 
 
-Congratulations, You just created your first google Colab notebook. Navigate  to the extreme left pane and click on the three lines . Below is the screen that will show.Here you can navigate your notebook easily to various parts of it such as sections.
+Congratulations🎉, you just created a google Colab notebook. Navigate  to the extreme left pane and click on the three lines . Below is the screen that will show.Here you can navigate your notebook easily to various parts of it such as sections.
 
 ![Test Image](./images/9.png "Test Title")
 
@@ -70,14 +85,14 @@ Also click on <> button  to view code snippets that can easily be searched and u
 
 ![Test Image](./images/11.png "Test Title")
 
-**Uploading data to your Colab environment from your local machine.**
+#### Uploading data to your Colab environment from your local machine.
 Click on the Folder icon at the left pane , then the Upload button. Below is the window that pops up.
 
 ![Test Image](./images/12.png "Test Title")
 
 Select the files you wish to upload and click Open.
 
-**Downloading Datasets into Google Drive via Google Colab**
+#### Downloading Datasets into Google Drive via Google Colab
 
 First, we will have to mount our google drive to our notebook environment. This is by clicking the folder icon at the extreme left pane and then the mount Drive button at the top .You will have to authorize the right gmail account ,so the screen below is shown.
 
@@ -87,11 +102,11 @@ Click on connect to google Drive button and the drive folder is created in your 
 
 ![Test Image](./images/14.png "Test Title")
 
-**Saving your notebook to Google drive**
+#### Saving your notebook to Google drive
 
 In order to do this, you will have to click on File>Save a Copy in Drive and follow the prompts.
 
-**Saving your notebook to Github**
+#### Saving your notebook to Github
 
 First, you will have to click on File>Save a Copy in Github.Incase it is the first time , you are prompted with an authorization window  shown below.
 
@@ -101,9 +116,11 @@ Edit the public repository you wish to save your notebook in or automatically Co
 
 ![Test Image](./images/16.png "Test Title")
 
-**Getting started with running a GPU job on Google Colab.**
+---
 
-**Enabling GPU**
+### Getting started with running a GPU job on Google Colab.
+
+#### Enabling GPU
 
 To successfully run a GPU job, you need to change your runtime type by clicking Runtime>Change runtime type. The window below shows.
 
@@ -134,6 +151,27 @@ If the GPU is enabled, it will give the following output below
 ```python
 /device:GPU:0
 ```
+
+### Variables and Arithmetic
+
+Within a new input cell, type a variable named seconds and give it a value of 3600 as shown below
+
+```python
+seconds = 3600
+```
+You run the above cell and calculate the minutes in the above seconds using the function below
+```python
+minutes = seconds // 60
+print("There are " + str(minutes) + " minutes are in " + str(seconds) + " seconds")
+```
+The output should be 
+
+```python
+There are 60 minutes are in 3600 seconds
+```
+
+### 
+
 ---
 ## Author Details
 Am a senior student of [Makerere University](https://www.mak.ac.ug/) pursuing a Bachelor of Science degree in Telecommunications Engineering at the [College of Engineering ,Design, Art and Technology](https://cedat.mak.ac.ug/).
