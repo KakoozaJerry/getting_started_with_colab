@@ -134,8 +134,11 @@ If the GPU is enabled, it will give the following output below
 ```python
 /device:GPU:0
 ```
-## Author Detail
-Am a senior student at [Makerere University](https://www.mak.ac.ug/) pursuing a Bachelor of Science degree in Telecommunications Engineering at the [College of Engineering ,Design, Art and Technology](https://cedat.mak.ac.ug/).
+---
+## Author Details
+Am a senior student of [Makerere University](https://www.mak.ac.ug/) pursuing a Bachelor of Science degree in Telecommunications Engineering at the [College of Engineering ,Design, Art and Technology](https://cedat.mak.ac.ug/).
+
+## Links to above ipython notebook tutorials
 
 
 ## Github Repo
