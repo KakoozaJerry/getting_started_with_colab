@@ -17,9 +17,9 @@ One can leverage **free Graphics Processing Units**(GPUs) for machine, scientifi
         - [Saving your notebook to Google drive](#Saving-your-notebook-to-Google-drive)
         - [Saving your notebook to Github](#Saving-your-notebook-to-Github)
         - [Enabling GPU](#Enabling-GPU)
-    - [Variables & Arithmetic]()
-    - [Functions]()
-- [Machine Learning Intro]()
+    - [Variables & Arithmetic](#Variables-and-Arithmetic)
+    - [Functions](#Functions)
+- [Machine Learning Intro](#Machine-Learning-Intro)
     - [Model Fitting]()
     - [Prediction]()
     - [Cross-Validation]()
@@ -86,6 +86,10 @@ Also click on <> button  to view code snippets that can easily be searched and u
 ![Test Image](./images/11.png "Test Title")
 
 #### Uploading data to your Colab environment from your local machine.
+By default , there is  a sample data folder created in your environment variable that you can expand and when you click on an individual file, a third side pane appears on the extreme right . This can also be used as a text editor to manipulate the text in that file .
+
+![Test Image](./images/sidepane.PNG "Test Title")
+
 Click on the Folder icon at the left pane , then the Upload button. Below is the window that pops up.
 
 ![Test Image](./images/12.png "Test Title")
@@ -171,9 +175,12 @@ There are 60 minutes are in 3600 seconds
 ```
 
 ### Functions
+
 * We will run the code below for a recursion function by typing it into the input cell and pressing the Shift+Enter keys
 
+
 Recursion is a common mathematical and programming concept. It means that a function calls itself. This has the benefit of meaning that you can loop through data to reach a result.
+
 
 You should be very careful with recursion as it can be quite easy to slip into writing a function which never terminates, or one that uses excess amounts of memory or processor power. However, when written correctly recursion can be a very efficient and mathematically-elegant approach to programming.
 
@@ -193,6 +200,7 @@ tri_recursion(6)
 ```
 The output cell should be as below
 
+
 ```python
 
 Recursion Example Results
@@ -210,7 +218,107 @@ The reason why 1 is printed before the 21 is because of the stack that is formed
 # Machine Learning Intro
 * By now you have all the notebook basics at your finger tips. Lets dive into some machine learning using scikit-learn. I assume you have a basic working knowledge of ML practices.
 
+#### Scikit-Learn
 Scikit-learn is an open source machine learning library that supports supervised and unsupervised learning. It also provides various tools for model fitting, data preprocessing, model selection and evaluation, and many other utilities.
+
+* By default, this library is pre installed in google colab so no need to run the pip installation command.
+
+* Scikit-Learn provides dozens of built-in machine learning algorithms and models, called estimators. Each estimator can be fitted to some data using its fit method.
+
+### Model Fitting
+This is an example to fit a RandomForestClassifier with some very basic data. You should try it out in a new colab notebook.
+Type the code below in an input cell then run it.
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+clf = RandomForestClassifier(random_state=0)
+X = [[ 1,  2,  3],[11, 12, 13]]  # 2 samples, 3 features
+y = [0, 1]  # classes of each sample
+clf.fit(X, y)
+
+```
+
+The output cell should be:
+
+![Test Image](./images/Output1.PNG "Test Title")
+
+The fit method generally accepts 2 inputs:
+
+* The samples matrix (or design matrix) `X`. The size of `X` is typically `(n_samples, n_features)`, which means that samples are represented as rows and features are represented as columns.
+* The target values `y` which are real numbers for regression tasks, or integers for classification (or any other discrete set of values). For unsupervized learning tasks, `y` does not need to be specified. `y` is usually 1d array where the `i` th entry corresponds to the target of the `i` th sample (row) of `X`.
+
+Both `X` and `y` are usually expected to be numpy arrays or equivalent array-like data types, though some estimators work with other formats such as sparse matrices.
+
+
+### Prediction
+Once the estimator is fitted, it can be used for predicting target values of new data. You don’t need to re-train the estimator:
+
+```python
+clf.predict(X)  # predict classes of the training data
+clf.predict([[4, 5, 6], [14, 15, 16]])  # predict classes of new data
+```
+
+# How to run a job with GPU
+
+We will now do an example of image classification while running it on a GPU. 
+
+This example shows how to classify cats or dogs from images.
+We shall build an image classifier using `tf.keras.sequential` model and load the data using `tf.keras.preprocessing.image.ImageDataGenerator`.
+The following concepts will be emphasized :
+
+* _Building data_ into pipelines to efficiently work with data on disk to use with the model.
+* _Overfitting_ - How to identify and prevent it.
+* _Data augmentation_ and _dropout_ - Key techniques to fight overfitting in computer vision tasks to incorporate into the data pipeline and image classifier model.
+
+### Import Packages
+Let's start by **[changing to a GPU runtime](#Enabling-GPU)** then importing the required packages into our colab notebook. The `os` package is used to read files and directory structure, `NumPy` is used to convert python list to numpy array and to perform required matrix operations and `matplotlib.pyplot` to plot the graph and display images in the training and validation data.
+Type the code below in an input cell and run it to import packages
+
+```python
+import tensorflow as tf
+```
+
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+```
+### Load Data
+Begin by downloading the dataset. This tutorial uses a filtered version of Dogs vs Cats dataset from Kaggle. Download the archive version of the dataset and store it in the "/tmp/" directory.
+
+![Test Image](./images/GPUjob1.PNG "Test Title")
+
+The dataset has the following directory structure:
+
+<pre>
+<b>cats_and_dogs_filtered</b>
+|__ <b>train</b>
+    |______ <b>cats</b>: [cat.0.jpg, cat.1.jpg, cat.2.jpg ....]
+    |______ <b>dogs</b>: [dog.0.jpg, dog.1.jpg, dog.2.jpg ...]
+|__ <b>validation</b>
+    |______ <b>cats</b>: [cat.2000.jpg, cat.2001.jpg, cat.2002.jpg ....]
+    |______ <b>dogs</b>: [dog.2000.jpg, dog.2001.jpg, dog.2002.jpg ...]
+</pre>
+
+After extracting its contents, assign variables with the proper file path for the training and validation set.
+
+```python
+train_dir = os.path.join(PATH, 'train')
+validation_dir = os.path.join(PATH, 'validation')
+```
+
+```python
+train_cats_dir = os.path.join(train_dir, 'cats')  # directory with our training cat pictures
+train_dogs_dir = os.path.join(train_dir, 'dogs')  # directory with our training dog pictures
+validation_cats_dir = os.path.join(validation_dir, 'cats')  # directory with our validation cat pictures
+validation_dogs_dir = os.path.join(validation_dir, 'dogs')  # directory with our validation dog pictures
+```
+
+Let's look at how many cats and dogs images are in the training and validation directory:
 
 ---
 ## Author Details
@@ -219,6 +327,10 @@ Am a senior student of [Makerere University](https://www.mak.ac.ug/) pursuing a 
 ## Links to above ipython notebook tutorials
 
 [MyFirstNotebook](https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-) : [https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-](https://colab.research.google.com/drive/1zO7_uiTQ40lcxuv4OtaOe3vtKgoXYW0-)
+
+[ML Intro](https://colab.research.google.com/drive/12KXXvzdV_2GSmqvwVoZPqSlVHOVe9Hpe?usp=sharing): [https://colab.research.google.com/drive/12KXXvzdV_2GSmqvwVoZPqSlVHOVe9Hpe?usp=sharing](https://colab.research.google.com/drive/12KXXvzdV_2GSmqvwVoZPqSlVHOVe9Hpe?usp=sharing)
+
+[Image Classifier](https://colab.research.google.com/drive/1m0VNPN5rg-l23y3zVk6vlQj9cbgDy1SH?usp=sharing) : [https://colab.research.google.com/drive/1m0VNPN5rg-l23y3zVk6vlQj9cbgDy1SH?usp=sharing](https://colab.research.google.com/drive/1m0VNPN5rg-l23y3zVk6vlQj9cbgDy1SH?usp=sharing)
 
 ## Github Repo
 
