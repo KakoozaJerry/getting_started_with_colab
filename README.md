@@ -124,7 +124,7 @@ Edit the public repository you wish to save your notebook in or automatically Co
 
 ### Getting started with running a GPU job on Google Colab.
 
-#### Enabling GPU
+### Enabling GPU
 
 To successfully run a GPU job, you need to change your runtime type by clicking Runtime>Change runtime type. The window below shows.
 
@@ -318,7 +318,256 @@ validation_cats_dir = os.path.join(validation_dir, 'cats')  # directory with our
 validation_dogs_dir = os.path.join(validation_dir, 'dogs')  # directory with our validation dog pictures
 ```
 
+### Understanding the data 
 Let's look at how many cats and dogs images are in the training and validation directory:
+
+```python
+num_cats_tr = len(os.listdir(train_cats_dir))
+num_dogs_tr = len(os.listdir(train_dogs_dir))
+
+num_cats_val = len(os.listdir(validation_cats_dir))
+num_dogs_val = len(os.listdir(validation_dogs_dir))
+
+total_train = num_cats_tr + num_dogs_tr
+total_val = num_cats_val + num_dogs_val
+```
+
+```python
+print('total training cat images:', num_cats_tr)
+print('total training dog images:', num_dogs_tr)
+
+print('total validation cat images:', num_cats_val)
+print('total validation dog images:', num_dogs_val)
+print("--")
+print("Total training images:", total_train)
+print("Total validation images:", total_val)
+```
+The output cell should be as below
+
+![Test Image](./images/understandingdata1.PNG "Test Title")
+
+For convenience, set up variables to use while pre-processing the dataset and training the network.
+
+```python
+batch_size = 128
+epochs = 15
+IMG_HEIGHT = 150
+IMG_WIDTH = 150
+```
+
+### Data preparation
+Format the images into appropriately pre-processed floating point tensors before feeding to the network:
+
+1. Read images from the disk.
+1. Decode contents of these images and convert it into proper grid format as per their RGB content.
+1. Convert them into floating point tensors.
+1. Rescale the tensors from values between 0 and 255 to values between 0 and 1, as neural networks prefer to deal with small input values.
+
+Fortunately, all these tasks can be done with the `ImageDataGenerator` class provided by `tf.keras`. It can read images from disk and preprocess them into proper tensors. It will also set up generators that convert these images into batches of tensors—helpful when training the network.
+
+```python
+train_image_generator = ImageDataGenerator(rescale=1./255) # Generator for our training data
+validation_image_generator = ImageDataGenerator(rescale=1./255) # Generator for our validation data
+```
+
+After defining the generators for training and validation images, the `flow_from_directory` method load images from the disk, applies rescaling, and resizes the images into the required dimensions.
+
+```python
+train_data_gen = train_image_generator.flow_from_directory(batch_size=batch_size,directory=train_dir,shuffle=True,target_size=(IMG_HEIGHT, IMG_WIDTH),class_mode='binary')
+```
+![Test Image](./images/found2000.PNG "Test Title")
+
+```python
+val_data_gen = validation_image_generator.flow_from_directory(batch_size=batch_size,
+directory=validation_dir,target_size=(IMG_HEIGHT, IMG_WIDTH),class_mode='binary')
+```
+
+![Test Image](./images/found1000.PNG "Test Title")
+
+### Visualize training images
+Visualize the training images by extracting a batch of images from the training generator—which is 32 images in this example—then plot five of them with `matplotlib`.
+
+```python
+sample_training_images, _ = next(train_data_gen)
+```
+
+The `next` function returns a batch from the dataset. The return value of next function is in form of `(x_train, y_train)` where `x_train` is training features and `y_train`, its labels. Discard the labels to only visualize the training images.
+
+```python
+# This function will plot images in the form of a grid with 1 row and 5 columns where images are placed in each column.
+def plotImages(images_arr):
+    fig, axes = plt.subplots(1, 5, figsize=(20,20))
+    axes = axes.flatten()
+    for img, ax in zip( images_arr, axes):
+        ax.imshow(img)
+        ax.axis('off')
+    plt.tight_layout()
+    plt.show()
+```
+```python
+plotImages(sample_training_images[:5])
+```
+Your output should be five different images in a row as shown below
+
+![Test Image](./images/samplez.PNG "Test Title")
+
+### Create the model
+The model consists of three convolution blocks with a max pool layer in each of them. There's a fully connected layer with 512 units on top of it that is activated by a relu activation function.
+
+```python
+model = Sequential([
+    Conv2D(16, 3, padding='same', activation='relu', input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+    MaxPooling2D(),
+    Conv2D(32, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Conv2D(64, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Flatten(),
+    Dense(512, activation='relu'),
+    Dense(1)
+])
+```
+
+### Compile the model
+
+For this tutorial, choose the `ADAM` optimizer and `binary cross entropy` loss function. To view training and validation accuracy for each training epoch, pass the `metrics` argument.
+
+```python
+model.compile(optimizer='adam',
+              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+              metrics=['accuracy'])
+```
+### Model summary
+View all the layers of the network using the model's summary method:
+
+```python
+model.summary()
+```
+
+The output cell should show
+
+![Test Image](./images/modelsum.PNG "Test Title")
+
+
+### Train the model
+Use the `fit_generator` method of the `ImageDataGenerator` class to train the network.
+
+```python
+history = model.fit_generator(
+    train_data_gen,
+    steps_per_epoch=total_train // batch_size,
+    epochs=epochs,
+    validation_data=val_data_gen,
+    validation_steps=total_val // batch_size
+)
+```
+The output cell should show the outputs below.Allow it to run until it completes all the 15 epochs
+
+![Test Image](./images/modelrun.PNG "Test Title")
+
+### Visualize training results
+
+Now visualize the results after training the network.
+
+![Test Image](./images/losscurv.PNG "Test Title")
+
+As you can see from the plots, training accuracy and validation accuracy are off by large margin and the model has achieved only around 70% accuracy on the validation set.
+
+Let's look at what went wrong and try to increase overall performance of the model.
+
+### Overfitting
+
+In the plots above, the training accuracy is increasing linearly over time, whereas validation accuracy stalls around 70% in the training process. Also, the difference in accuracy between training and validation accuracy is noticeable—a sign of *overfitting*.
+
+When there are a small number of training examples, the model sometimes learns from noises or unwanted details from training examples—to an extent that it negatively impacts the performance of the model on new examples. This phenomenon is known as overfitting. It means that the model will have a difficult time generalizing on a new dataset.
+
+There are multiple ways to fight overfitting in the training process. In this tutorial, you'll use *data augmentation* and add *dropout* to our model.
+
+### Data augmentation
+
+Overfitting generally occurs when there are a small number of training examples. One way to fix this problem is to augment the dataset so that it has a sufficient number of training examples. Data augmentation takes the approach of generating more training data from existing training samples by augmenting the samples using random transformations that yield believable-looking images. The goal is the model will never see the exact same picture twice during training. This helps expose the model to more aspects of the data and generalize better.
+
+Implement this in `tf.keras` using the `ImageDataGenerator` class. Pass  different transformations to the dataset and it will take care of applying it during the training process.
+
+### Augment and visualize Data
+
+Begin by applying random horizontal flip augmentation to the dataset and see how individual images look like after the transformation.
+
+### Apply Horizontal Flip
+
+Pass `horizontal_flip` as an argument to the `ImageDataGenerator` class and set it to `True` to apply this augmentation.
+
+```python
+image_gen = ImageDataGenerator(rescale=1./255, horizontal_flip=True)
+```
+
+```python
+train_data_gen = image_gen.flow_from_directory(batch_size=batch_size,directory=train_dir,shuffle=True,target_size=(IMG_HEIGHT, IMG_WIDTH))
+```
+
+![Test Image](./images/foundanotha2000.PNG "Test Title")
+
+Take one sample image from the training examples and repeat it five times so that the augmentation is applied to the same image five times.
+
+```python
+augmented_images = [train_data_gen[0][0][0] for i in range(5)]
+```
+
+```python
+# Re-use the same custom plotting function defined and used
+# above to visualize the training images
+plotImages(augmented_images)
+```
+![Test Image](./images/reuse1.PNG "Test Title")
+
+### Randomly rotate the image
+
+Let's take a look at a different augmentation called rotation and apply 45 degrees of rotation randomly to the training examples.
+
+```python
+image_gen = ImageDataGenerator(rescale=1./255, rotation_range=45)
+```
+
+```python
+train_data_gen = image_gen.flow_from_directory(batch_size=batch_size,directory=train_dir,shuffle=True,target_size=(IMG_HEIGHT, IMG_WIDTH))
+
+augmented_images = [train_data_gen[0][0][0] for i in range(5)]
+```
+
+![Test Image](./images/foundanotha2000.PNG "Test Title")
+
+```python
+plotImages(augmented_images)
+```
+![Test Image](./images/catsagain.PNG "Test Title")
+
+
+### Apply Zoom Augmentation
+Apply a zoom augmentation to the dataset to zoom images up to 50% randomly.
+
+```python
+# zoom_range from 0 - 1 where 1 = 100%.
+image_gen = ImageDataGenerator(rescale=1./255, zoom_range=0.5) # 
+```
+
+```python
+train_data_gen = image_gen.flow_from_directory(batch_size=batch_size,directory=train_dir,shuffle=True,target_size=(IMG_HEIGHT, IMG_WIDTH))
+
+augmented_images = [train_data_gen[0][0][0] for i in range(5)]
+```
+![Test Image](./images/foundanotha2000.PNG "Test Title")
+
+
+```python
+plotImages(augmented_images)
+```
+
+![Test Image](./images/cats222.PNG "Test Title")
+
+### Putting it all together
+
+Apply all the previous augmentations. Here, you applied rescale, 45 degree rotation, width shift, height shift, horizontal flip and zoom augmentation to the training images.
+
 
 ---
 ## Author Details
