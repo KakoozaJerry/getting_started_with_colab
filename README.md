@@ -467,7 +467,30 @@ The output cell should show the outputs below.Allow it to run until it completes
 
 ### Visualize training results
 
-Now visualize the results after training the network.
+Now visualize the results after training the network by typing the code below.
+```python
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+
+loss=history.history['loss']
+val_loss=history.history['val_loss']
+
+epochs_range = range(epochs)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label='Training Accuracy')
+plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label='Training Loss')
+plt.plot(epochs_range, val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.show()
+```
 
 ![Test Image](./images/losscurv.PNG "Test Title")
 
@@ -568,6 +591,138 @@ plotImages(augmented_images)
 
 Apply all the previous augmentations. Here, you applied rescale, 45 degree rotation, width shift, height shift, horizontal flip and zoom augmentation to the training images.
 
+```python
+image_gen_train = ImageDataGenerator(
+                    rescale=1./255,
+                    rotation_range=45,
+                    width_shift_range=.15,
+                    height_shift_range=.15,
+                    horizontal_flip=True,
+                    zoom_range=0.5
+                    )
+```
+```python
+train_data_gen = image_gen_train.flow_from_directory(batch_size=batch_size,
+                                                     directory=train_dir,
+                                                     shuffle=True,
+                                                     target_size=(IMG_HEIGHT, IMG_WIDTH),
+                                                     class_mode='binary')
+```
+
+![Test Image](./images/foundanotha2000.PNG "Test Title")
+
+Visualize how a single image would look five different times when passing these augmentations randomly to the dataset.
+
+```python
+augmented_images = [train_data_gen[0][0][0] for i in range(5)]
+plotImages(augmented_images)
+```
+![Test Image](./images/resumed.PNG "Test Title")
+
+### Create validation data generator
+
+Generally, only apply data augmentation to the training examples. In this case, only rescale the validation images and convert them into batches using `ImageDataGenerator`.
+
+```python
+image_gen_val = ImageDataGenerator(rescale=1./255)
+```
+
+```python
+val_data_gen = image_gen_val.flow_from_directory(batch_size=batch_size,
+                                                 directory=validation_dir,
+                                                 target_size=(IMG_HEIGHT, IMG_WIDTH),
+                                                 class_mode='binary')
+```
+![Test Image](./images/found1000ag.PNG "Test Title")
+## Dropout
+
+Another technique to reduce overfitting is to introduce *dropout* to the network. It is a form of *regularization* that forces the weights in the network to take only small values, which makes the distribution of weight values more regular and the network can reduce overfitting on small training examples. Dropout is one of the regularization technique used in this tutorial
+
+When you apply dropout to a layer it randomly drops out (set to zero) number of output units from the applied layer during the training process. Dropout takes a fractional number as its input value, in the form such as 0.1, 0.2, 0.4, etc. This means dropping out 10%, 20% or 40% of the output units randomly from the applied layer.
+
+When appling 0.1 dropout to a certain layer, it randomly kills 10% of the output units in each training epoch.
+
+Create a network architecture with this new dropout feature and apply it to different convolutions and fully-connected layers.
+
+## Creating a new network with Dropouts
+
+Here, you apply dropout to first and last max pool layers. Applying dropout will randomly set 20% of the neurons to zero during each training epoch. This helps to avoid overfitting on the training dataset.
+
+```python
+model_new = Sequential([
+    Conv2D(16, 3, padding='same', activation='relu', 
+           input_shape=(IMG_HEIGHT, IMG_WIDTH ,3)),
+    MaxPooling2D(),
+    Dropout(0.2),
+    Conv2D(32, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Conv2D(64, 3, padding='same', activation='relu'),
+    MaxPooling2D(),
+    Dropout(0.2),
+    Flatten(),
+    Dense(512, activation='relu'),
+    Dense(1)
+])
+```
+
+### Compile the model
+
+After introducing dropouts to the network, compile the model and view the layers summary.
+
+```python
+model_new.compile(optimizer='adam',
+                  loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
+
+model_new.summary()
+```
+
+![Test Image](./images/summary2.PNG "Test Title")
+
+### Train the model
+
+After successfully introducing data augmentations to the training examples and adding dropouts to the network, train this new network:
+
+```python
+history = model_new.fit_generator(
+    train_data_gen,
+    steps_per_epoch=total_train // batch_size,
+    epochs=epochs,
+    validation_data=val_data_gen,
+    validation_steps=total_val // batch_size
+)
+```
+![Test Image](./images/sssu.PNG "Test Title")
+
+
+### Visualize the model
+
+Visualize the new model after training, you can see that there is significantly less overfitting than before. The accuracy should go up after training the model for more epochs.
+
+```python
+acc = history.history['accuracy']
+val_acc = history.history['val_accuracy']
+
+loss = history.history['loss']
+val_loss = history.history['val_loss']
+
+epochs_range = range(epochs)
+
+plt.figure(figsize=(8, 8))
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label='Training Accuracy')
+plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label='Training Loss')
+plt.plot(epochs_range, val_loss, label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+plt.show()
+```
+![Test Image](./images/grap1.PNG "Test Title")
 
 ---
 ## Author Details
