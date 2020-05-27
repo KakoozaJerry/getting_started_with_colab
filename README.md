@@ -12,7 +12,7 @@ One can leverage **free Graphics Processing Units**(GPUs) for machine, scientifi
 
 - [Basic Python Operations in Notebooks](#basic-python-operations-in-notebooks)
     - [Print My First Notebook](#my-first-notebook)
-        - [Uploading data to your Colab environment from your local machine](#Uploading-data-to-your-Colab-environment-from-your-local-machine)
+        - [Uploading data to your Colab environment from your local machine](##Uploading-data-to-your-Colab-environment-from-your-local-machine)
         - [Downloading Datasets into Google Drive via Google Colab](#Downloading-Datasets-into-Google-Drive-via-Google-Colab)
         - [Saving your notebook to Google drive](#Saving-your-notebook-to-Google-drive)
         - [Saving your notebook to Github](#Saving-your-notebook-to-Github)
